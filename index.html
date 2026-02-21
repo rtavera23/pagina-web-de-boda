@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Radha & Dolo · 25 Julio 2026</title>
@@ -13,293 +14,311 @@
 
     <!-- AOS (animaciones on-scroll) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
-  </head>
+</head>
 
-  <body>
+<body>
     <header class="nav" id="siteNav">
-      <div class="container nav__inner">
-        <div class="brand">Radha & Dolo</div>
+        <div class="container nav__inner">
+            <div class="brand">Radha & Dolo</div>
 
-        <!-- Botón mobile -->
-        <button
-          class="nav__toggle"
-          type="button"
-          aria-label="Abrir menú"
-          aria-expanded="false"
-          aria-controls="navMenu"
-          id="navToggle"
-        >
-          <span class="nav__toggleBars" aria-hidden="true"></span>
-        </button>
+            <!-- Botón mobile -->
+            <button class="nav__toggle" type="button" aria-label="Abrir menú" aria-expanded="false"
+                aria-controls="navMenu" id="navToggle">
+                <span class="nav__toggleBars" aria-hidden="true"></span>
+            </button>
 
-        <!-- Backdrop (solo mobile) -->
-        <div class="nav__backdrop" id="navBackdrop" aria-hidden="true"></div>
+            <!-- Backdrop (solo mobile) -->
+            <div class="nav__backdrop" id="navBackdrop" aria-hidden="true"></div>
 
-        <!-- Menú -->
-        <nav class="nav__links" id="navMenu" aria-label="Navegación principal">
-          <a href="#historia">Historia</a>
-          <a href="#info">Información</a>
-          <a href="#transporte">Transporte</a>
-          <a href="#rsvp">Confirmación</a>
-        </nav>
-      </div>
+            <!-- Menú -->
+            <nav class="nav__links" id="navMenu" aria-label="Navegación principal">
+                <a href="#historia">Historia</a>
+                <a href="#timeline">Timeline</a>
+                <a href="#info">Información</a>
+                <a href="#transporte">Transporte</a>
+                <a href="#rsvp">Confirmación</a>
+            </nav>
+        </div>
     </header>
 
     <main>
-      <!-- HERO -->
-      <section class="hero">
-        <div class="container hero__inner">
-          <div class="hero__text" data-aos="fade-up" data-aos-duration="800">
-            <p class="kicker">Valencia · 25 de julio de 2026</p>
-            <h1>Radha &amp; Dolo</h1>
-            <p class="sub">Nos casamos</p>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container hero__inner">
+                <div class="hero__text" data-aos="fade-up" data-aos-duration="800">
+                    <p class="kicker">Valencia · 25 de julio de 2026</p>
+                    <h1>Radha &amp; Dolo</h1>
+                    <p class="sub">Nos casamos</p>
 
-            <div class="cta">
-              <a class="button" href="#rsvp">Confirmar asistencia</a>
-              <a class="button button--ghost" href="#info">Ver detalles</a>
-            </div>
+                    <div class="cta">
+                        <a class="button" href="#rsvp">Confirmar asistencia</a>
+                        <a class="button button--ghost" href="#info">Ver detalles</a>
+                    </div>
 
-            <div class="countdown" aria-label="Cuenta atrás">
-              <div class="countdown__item">
-                <span class="countdown__num" id="d">--</span>
-                <span class="countdown__lbl">días</span>
-              </div>
+                    <div class="countdown" aria-label="Cuenta atrás">
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="d">--</span>
+                            <span class="countdown__lbl">días</span>
+                        </div>
 
-              <div class="countdown__item">
-                <span class="countdown__num" id="h">--</span>
-                <span class="countdown__lbl">horas</span>
-              </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="h">--</span>
+                            <span class="countdown__lbl">horas</span>
+                        </div>
 
-              <div class="countdown__item">
-                <span class="countdown__num" id="m">--</span>
-                <span class="countdown__lbl">min</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero__media" data-aos="fade-up" data-aos-delay="150" data-aos-duration="900">
-            <img
-              src="assets/0027D858-1241-4668-914F-5A0F8A7D3737_1_105_c.jpeg"
-              alt="Radha y Dolo en la playa"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- FOTO EDITORIAL -->
-      <section class="hero-band" data-aos="fade-up" data-aos-duration="900">
-        <div class="container">
-          <div class="hero-band__frame">
-            <img
-              src="assets/933CDB69-E65C-448B-ACD7-A7E6AE188C63_1_105_c.jpeg"
-              alt="Radha y Dolo en el portal verde"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- HISTORIA -->
-      <section id="historia" class="section">
-        <div class="container" data-aos="fade-up" data-aos-duration="800">
-          <h2>Nuestra historia</h2>
-          <p class="lead">necesitamos texto aca gordita</p>
-
-          <div class="grid">
-            <div class="card">
-              <div class="label">Cómo empezó</div>
-              <p>necesitamos texto aca gordita</p>
-            </div>
-
-            <div class="card">
-              <div class="label">Momentos favoritos</div>
-              <p>necesitamos texto aca gordita</p>
-            </div>
-
-            <div class="card">
-              <div class="label">La propuesta</div>
-              <p>necesitamos texto aca gordita</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- GALERÍA -->
-      <section class="section section--gallery" id="galeria">
-        <div class="container" data-aos="fade-up" data-aos-duration="800">
-          <div class="section-head">
-            <h2>Nuestros Momentos</h2>
-            <p class="muted">Desliza para ver más</p>
-          </div>
-
-          <div class="swiper wedding-swiper" aria-label="Galería de fotos">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div class="slide-frame">
-                  <img
-                    src="assets/97AFEC89-EE10-4E7E-B0B2-0649B5DCF39D_1_105_c.jpeg"
-                    alt="Cocinando juntos"
-                    loading="lazy"
-                  />
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="m">--</span>
+                            <span class="countdown__lbl">min</span>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              <div class="swiper-slide">
-                <div class="slide-frame">
-                  <img
-                    src="assets/56B8D874-6E19-495C-B20A-B4E1A994FA40_4_5005_c.jpeg"
-                    alt="Risas en casa"
-                    loading="lazy"
-                  />
+                <div class="hero__media" data-aos="fade-up" data-aos-delay="150" data-aos-duration="900">
+                    <img src="assets/0027D858-1241-4668-914F-5A0F8A7D3737_1_105_c.jpeg"
+                        alt="Radha y Dolo en la playa" />
                 </div>
-              </div>
+            </div>
+        </section>
 
-              <div class="swiper-slide">
-                <div class="slide-frame">
-                  <img
-                    src="assets/596D20F2-494D-42A3-8AA0-FD4BE84EA11E_1_105_c.jpeg"
-                    alt="Paseo juntos"
-                    loading="lazy"
-                  />
+        <!-- FOTO EDITORIAL -->
+        <section class="hero-band" data-aos="fade-up" data-aos-duration="900">
+            <div class="container">
+                <div class="hero-band__frame">
+                    <img src="assets/933CDB69-E65C-448B-ACD7-A7E6AE188C63_1_105_c.jpeg"
+                        alt="Radha y Dolo en el portal verde" />
                 </div>
-              </div>
+            </div>
+        </section>
 
-              <div class="swiper-slide">
-                <div class="slide-frame">
-                  <img
-                    src="assets/61B63DA7-3FFF-480A-B438-8ED0910DEC71_4_5005_c.jpeg"
-                    alt="Navidad juntos"
-                    loading="lazy"
-                  />
+        <!-- HISTORIA -->
+        <section id="historia" class="section">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <h2>Nuestra historia</h2>
+                <p class="lead">necesitamos texto aca gordita</p>
+
+                <div class="grid">
+                    <div class="card">
+                        <div class="label">Cómo empezó</div>
+                        <p>necesitamos texto aca gordita</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">Momentos favoritos</div>
+                        <p>necesitamos texto aca gordita</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">La propuesta</div>
+                        <p>necesitamos texto aca gordita</p>
+                    </div>
                 </div>
-              </div>
             </div>
+        </section>
 
-            <!-- Controles (se ocultan en móvil por CSS) -->
-            <div class="swiper-button-prev" aria-label="Anterior"></div>
-            <div class="swiper-button-next" aria-label="Siguiente"></div>
-            <div class="swiper-pagination" aria-label="Paginación"></div>
-          </div>
-        </div>
-      </section>
+        <!-- TIMELINE -->
+        <section id="timeline" class="section section--alt">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <h2>Timeline del día</h2>
+                <p class="lead">Para que nadie se pierda nada ✨</p>
 
-      <!-- INFO -->
-      <section id="info" class="section section--alt">
-        <div class="container" data-aos="fade-up" data-aos-duration="800">
-          <h2>Información del gran día</h2>
+                <ol class="timeline" aria-label="Timeline de la boda">
+                    <li class="timeline__item">
+                        <div class="timeline__time">18:00</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Misa</div>
+                            <div class="timeline__desc">Ceremonia en la iglesia.</div>
+                        </div>
+                    </li>
 
-          <div class="grid grid--2">
-            <div class="card">
-              <h3>Ceremonia</h3>
-              <p>
-                <strong>Parroquia Epifanía del Señor y Santo Tomás de Villanueva</strong><br />
-                C/ de Montitxelvo, 16-18, Quatre Carreres, 46006 València
-              </p>
-              <a
-                class="link"
-                target="_blank"
-                rel="noopener"
-                href="https://www.google.com/maps/search/?api=1&query=Parroquia%20Epifan%C3%ADa%20del%20Se%C3%B1or%20y%20Santo%20Tom%C3%A1s%20de%20Villanueva%20Valencia"
-              >
-                Ver en Google Maps →
-              </a>
+                    <li class="timeline__item">
+                        <div class="timeline__time">19:00 – 19:30</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Bus</div>
+                            <div class="timeline__desc">Salida desde el punto de recogida cerca de la iglesia.</div>
+                        </div>
+                    </li>
+
+                    <li class="timeline__item">
+                        <div class="timeline__time">~20:00</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Llegada a la masía</div>
+                            <div class="timeline__desc">Nos movemos al convite.</div>
+                        </div>
+                    </li>
+
+                    <li class="timeline__item">
+                        <div class="timeline__time">20:00 – 21:30</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Cóctel</div>
+                            <div class="timeline__desc">Brindis, fotos y a disfrutar con los invitados.</div>
+                        </div>
+                    </li>
+
+                    <li class="timeline__item">
+                        <div class="timeline__time">21:30 – 23:30</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Cena</div>
+                            <div class="timeline__desc">Sentados para cenar.</div>
+                        </div>
+                    </li>
+
+                    <li class="timeline__item">
+                        <div class="timeline__time">23:30 – 3:30/4:00</div>
+                        <div class="timeline__card">
+                            <div class="timeline__title">Fiesta + resopón</div>
+                            <div class="timeline__desc">Baile, música y resopón para cerrar la noche.</div>
+                        </div>
+                    </li>
+                </ol>
             </div>
+        </section>
 
-            <div class="card">
-              <h3>Convite</h3>
-              <p>
-                <strong>Masía San Antonio De Poyo</strong><br />
-                Polígono Industrial La Reva, Sector 13, Masía San Antonio, s/n, 46190, Valencia
-              </p>
-              <a
-                class="link"
-                target="_blank"
-                rel="noopener"
-                href="https://www.google.com/maps/search/?api=1&query=Masia%20San%20Antonio%20de%20Poyo%20Valencia"
-              >
-                Ver en Google Maps →
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TRANSPORTE -->
-      <section id="transporte" class="section">
-        <div class="container" data-aos="fade-up" data-aos-duration="800">
-          <h2>Transporte</h2>
-          <div class="card">
-            <p>
-              Tendremos <strong>1 bus</strong> con punto de recogida cerca de la iglesia (actualizaremos la ubicación y la
-              hora). También habrá <strong>bus de regreso</strong> al final de la fiesta (hora y destino por confirmar).
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- RSVP -->
-      <section id="rsvp" class="section section--alt">
-        <div class="container" data-aos="fade-up" data-aos-duration="800">
-          <h2>Confirmación de asistencia</h2>
-          <p class="lead">Por favor confirma tu asistencia e indícanos menú, alergias y si necesitas bus.</p>
-
-          <div class="card">
-            <p class="small">(Opcional) Código para acceder al formulario: <strong>bodadoloyradha</strong></p>
-
-            <!-- Gate del formulario -->
-            <div class="rsvp-gate">
-              <label class="rsvp-gate__label" for="rsvpCode">Introduce el código</label>
-              <div class="rsvp-gate__row">
-                <input
-                  id="rsvpCode"
-                  class="rsvp-gate__input"
-                  type="password"
-                  placeholder="Código…"
-                  autocomplete="one-time-code"
-                />
-                <button id="rsvpUnlock" class="button rsvp-gate__button" type="button">Ver formulario</button>
-              </div>
-              <p id="rsvpGateMsg" class="small muted rsvp-gate__msg">
-                El formulario se mostrará aquí al introducir el código.
-              </p>
-            </div>
-
-            <!-- Embed: ahora SIEMPRE con src real (más fiable). Se bloquea visualmente hasta meter el código -->
-            <div class="embed is-locked" id="rsvpEmbed">
-              <div class="embed__lock" id="rsvpLock" aria-hidden="true">
-                <div class="embed__lockInner">
-                  <p class="small muted">Introduce el código para ver el formulario aquí.</p>
+        <!-- GALERÍA -->
+        <section class="section section--gallery" id="galeria">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <div class="section-head">
+                    <h2>Nuestros Momentos</h2>
+                    <p class="muted">Desliza para ver más</p>
                 </div>
-              </div>
 
-              <iframe
-                id="rsvpFrame"
-                title="RSVP"
-                src="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform?embedded=true"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
+                <div class="swiper wedding-swiper" aria-label="Galería de fotos">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="slide-frame">
+                                <img src="assets/97AFEC89-EE10-4E7E-B0B2-0649B5DCF39D_1_105_c.jpeg"
+                                    alt="Cocinando juntos" loading="lazy" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-frame">
+                                <img src="assets/56B8D874-6E19-495C-B20A-B4E1A994FA40_4_5005_c.jpeg" alt="Risas en casa"
+                                    loading="lazy" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-frame">
+                                <img src="assets/596D20F2-494D-42A3-8AA0-FD4BE84EA11E_1_105_c.jpeg" alt="Paseo juntos"
+                                    loading="lazy" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-slide">
+                            <div class="slide-frame">
+                                <img src="assets/61B63DA7-3FFF-480A-B438-8ED0910DEC71_4_5005_c.jpeg"
+                                    alt="Navidad juntos" loading="lazy" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles (se ocultan en móvil por CSS) -->
+                    <div class="swiper-button-prev" aria-label="Anterior"></div>
+                    <div class="swiper-button-next" aria-label="Siguiente"></div>
+                    <div class="swiper-pagination" aria-label="Paginación"></div>
+                </div>
             </div>
+        </section>
 
-            <p class="small muted">
-              Si el formulario no carga, abre el enlace directo:
-              <a
-                class="link"
-                id="rsvpDirect"
-                href="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform"
-                target="_blank"
-                rel="noopener"
-                >Abrir RSVP →</a
-              >
-            </p>
-          </div>
-        </div>
-      </section>
+        <!-- INFO -->
+        <section id="info" class="section section--alt">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <h2>Información del gran día</h2>
 
-      <footer class="footer">
-        <div class="container footer__inner">
-          <span>Radha &amp; Dolo · 25 de julio de 2026 · Valencia</span>
-        </div>
-      </footer>
+                <div class="grid grid--2">
+                    <div class="card">
+                        <h3>Ceremonia</h3>
+                        <p>
+                            <strong>Parroquia Epifanía del Señor y Santo Tomás de Villanueva</strong><br />
+                            C/ de Montitxelvo, 16-18, Quatre Carreres, 46006 València
+                        </p>
+                        <a class="link" target="_blank" rel="noopener"
+                            href="https://www.google.com/maps/search/?api=1&query=Parroquia%20Epifan%C3%ADa%20del%20Se%C3%B1or%20y%20Santo%20Tom%C3%A1s%20de%20Villanueva%20Valencia">
+                            Ver en Google Maps →
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <h3>Convite</h3>
+                        <p>
+                            <strong>Masía San Antonio De Poyo</strong><br />
+                            Polígono Industrial La Reva, Sector 13, Masía San Antonio, s/n, 46190, Valencia
+                        </p>
+                        <a class="link" target="_blank" rel="noopener"
+                            href="https://www.google.com/maps/search/?api=1&query=Masia%20San%20Antonio%20de%20Poyo%20Valencia">
+                            Ver en Google Maps →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSPORTE -->
+        <section id="transporte" class="section">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <h2>Transporte</h2>
+                <div class="card">
+                    <p>
+                        Tendremos <strong>1 bus</strong> con punto de recogida cerca de la iglesia (actualizaremos la
+                        ubicación y la
+                        hora). También habrá <strong>bus de regreso</strong> al final de la fiesta (hora y destino por
+                        confirmar).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP -->
+        <section id="rsvp" class="section section--alt">
+            <div class="container" data-aos="fade-up" data-aos-duration="800">
+                <h2>Confirmación de asistencia</h2>
+                <p class="lead">Por favor confirma tu asistencia e indícanos menú, alergias y si necesitas bus.</p>
+
+                <div class="card">
+                    <p class="small">(Opcional) Código para acceder al formulario: <strong>bodadoloyradha</strong></p>
+
+                    <!-- Gate del formulario -->
+                    <div class="rsvp-gate">
+                        <label class="rsvp-gate__label" for="rsvpCode">Introduce el código</label>
+                        <div class="rsvp-gate__row">
+                            <input id="rsvpCode" class="rsvp-gate__input" type="password" placeholder="Código…"
+                                autocomplete="one-time-code" />
+                            <button id="rsvpUnlock" class="button rsvp-gate__button" type="button">Ver
+                                formulario</button>
+                        </div>
+                        <p id="rsvpGateMsg" class="small muted rsvp-gate__msg">
+                            El formulario se mostrará aquí al introducir el código.
+                        </p>
+                    </div>
+
+                    <!-- Embed: ahora SIEMPRE con src real (más fiable). Se bloquea visualmente hasta meter el código -->
+                    <div class="embed is-locked" id="rsvpEmbed">
+                        <div class="embed__lock" id="rsvpLock" aria-hidden="true">
+                            <div class="embed__lockInner">
+                                <p class="small muted">Introduce el código para ver el formulario aquí.</p>
+                            </div>
+                        </div>
+
+                        <iframe id="rsvpFrame" title="RSVP"
+                            src="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform?embedded=true"
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                    <p class="small muted">
+                        Si el formulario no carga, abre el enlace directo:
+                        <a class="link" id="rsvpDirect"
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform"
+                            target="_blank" rel="noopener">Abrir RSVP →</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container footer__inner">
+                <span>Radha &amp; Dolo · 25 de julio de 2026 · Valencia</span>
+            </div>
+        </footer>
     </main>
 
     <!-- Libs -->
@@ -308,5 +327,6 @@
 
     <!-- Tu JS -->
     <script src="script.js"></script>
-  </body>
+</body>
+
 </html>
