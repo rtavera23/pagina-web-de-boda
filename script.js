@@ -284,7 +284,428 @@ function pad2(n) {
   sections.forEach(({ el }) => io.observe(el));
 })();
 
+/* ==========================================================================
+   Sticky CTA (mobile)
+   ========================================================================== */
 
+(function initStickyCta() {
+  const cta = document.getElementById("stickyCta");
+  if (!cta) return;
+
+  const hero = document.querySelector(".hero");
+  const rsvp = document.getElementById("rsvp");
+
+  // If there's no RSVP section, don't show the CTA
+  if (!rsvp) return;
+
+  let heroOut = false;
+  let rsvpIn = false;
+
+  function render() {
+    const show = heroOut && !rsvpIn;
+    cta.classList.toggle("is-visible", show);
+  }
+
+  const heroIO = hero
+    ? new IntersectionObserver(
+      (entries) => {
+        heroOut = !entries[0].isIntersecting;
+        render();
+      },
+      { root: null, threshold: 0.1 }
+    )
+    : null;
+
+  const rsvpIO = new IntersectionObserver(
+    (entries) => {
+      rsvpIn = entries[0].isIntersecting;
+      render();
+    },
+    { root: null, threshold: 0.2 }
+  );
+
+  if (hero && heroIO) heroIO.observe(hero);
+  rsvpIO.observe(rsvp);
+
+  window.addEventListener("load", () => {
+    const y = window.scrollY || 0;
+    heroOut = hero ? y > hero.offsetHeight * 0.6 : true;
+    rsvpIn = false;
+    render();
+  });
+})();
+
+
+/* ==========================================================================
+   RSVP (custom form -> Google Sheets via Apps Script)
+   ========================================================================== */
+
+(function initRsvpCustom() {
+  const form = document.getElementById("rsvpForm");
+  const wrap = document.getElementById("peopleWrap");
+  const tpl = document.getElementById("personTpl");
+  const addBtn = document.getElementById("addPersonBtn");
+  const statusEl = document.getElementById("rsvpStatus");
+  const submitBtn = document.getElementById("submitRsvpBtn");
+
+  if (!form || !wrap || !tpl || !addBtn) return;
+
+  const endpoint = form.getAttribute("data-endpoint") || "";
+  let personCount = 0;
+
+  function setStatus(msg, tone) {
+    if (!statusEl) return;
+    statusEl.textContent = msg || "";
+    statusEl.dataset.tone = tone || "";
+  }
+
+  function setConditional(personEl, attendingYes) {
+    const conditional = personEl.querySelector("[data-when-attend]");
+    if (!conditional) return;
+
+    // Enable/disable all inner inputs to avoid accidental validation
+    const innerInputs = Array.from(conditional.querySelectorAll("input, textarea, select"));
+
+    if (attendingYes) {
+      conditional.hidden = false;
+      innerInputs.forEach((el) => {
+        el.disabled = false;
+      });
+
+      // Required only when attending
+      const busYesNo = personEl.querySelectorAll('input[type="radio"][name^="bus_"]');
+      const menu = personEl.querySelectorAll('input[type="radio"][name^="menu_"]');
+
+      busYesNo.forEach((el) => el.required = true);
+      menu.forEach((el) => el.required = true);
+    } else {
+      conditional.hidden = true;
+      innerInputs.forEach((el) => {
+        // Clear values when hidden
+        if (el.type === "radio" || el.type === "checkbox") {
+          // ⚠️ No borres `value` en radios/checkboxes (si lo haces, luego se envía vacío)
+          el.checked = false;
+        } else if (el.tagName === "TEXTAREA") {
+          el.value = "";
+        } else if (el.tagName === "INPUT") {
+          el.value = "";
+        }
+
+        el.disabled = true;
+        el.required = false;
+      });
+    }
+  }
+
+  function updateRemoveButtons() {
+    const people = Array.from(wrap.querySelectorAll("[data-person]"));
+    people.forEach((p) => {
+      const btn = p.querySelector("[data-remove]");
+      if (!btn) return;
+      btn.style.display = people.length <= 1 ? "none" : "inline-flex";
+    });
+  }
+
+  function bindPerson(personEl, idx) {
+    // Assign unique names for inputs (radio groups)
+    personEl.querySelectorAll("[data-name]").forEach((el) => {
+      const base = el.getAttribute("data-name");
+      if (!base) return;
+      el.name = `${base}_${idx}`;
+    });
+
+    const numberEl = personEl.querySelector("[data-person-number]");
+    if (numberEl) numberEl.textContent = String(idx);
+
+
+    // Keep a stable index even if a person is removed (prevents name/index mismatch)
+    personEl.dataset.personIdx = String(idx);
+
+    // Default: conditional hidden until "Sí"
+    setConditional(personEl, false);
+
+    // Attend change handler
+    const attendRadios = Array.from(personEl.querySelectorAll('input[type="radio"][name^="attend_"]'));
+    attendRadios.forEach((r) => {
+      r.addEventListener("change", () => {
+        setConditional(personEl, r.value === "SI" && r.checked);
+      });
+    });
+
+    // Remove handler
+    const removeBtn = personEl.querySelector("[data-remove]");
+    if (removeBtn) {
+      removeBtn.addEventListener("click", () => {
+        personEl.remove();
+        updateRemoveButtons();
+      });
+    }
+  }
+
+  function addPerson() {
+    personCount += 1;
+    const idx = personCount;
+
+    const frag = tpl.content.cloneNode(true);
+    const personEl = frag.querySelector("[data-person]");
+    if (!personEl) return;
+
+    bindPerson(personEl, idx);
+    wrap.appendChild(frag);
+    updateRemoveButtons();
+  }
+
+  function getValue(formEl, name) {
+    const el = formEl.querySelector(`[name="${name}"]`);
+    if (!el) return "";
+    if (el.type === "radio") {
+      const checked = formEl.querySelector(`[name="${name}"]:checked`);
+      return checked ? checked.value : "";
+    }
+    return (el.value || "").trim();
+  }
+
+  function buildPayload() {
+    const peopleEls = Array.from(wrap.querySelectorAll("[data-person]"));
+
+    const people = peopleEls.map((personEl, i) => {
+      const idx = Number(personEl.dataset.personIdx || (i + 1)); // stable index for field names
+      const firstName = getValue(personEl, `firstName_${idx}`);
+      const lastName = getValue(personEl, `lastName_${idx}`);
+      const attend = getValue(personEl, `attend_${idx}`);
+
+      const bus = attend === "SI" ? getValue(personEl, `bus_${idx}`) : "";
+      const menu = attend === "SI" ? getValue(personEl, `menu_${idx}`) : "";
+      const allergies = attend === "SI" ? getValue(personEl, `allergies_${idx}`) : "";
+
+      console.log("=== VALORES CRUDOS DESDE DOM ===");
+      console.log("firstName:", firstName);
+      console.log("lastName:", lastName);
+      console.log("attend:", attend);
+      console.log("bus:", bus);
+      console.log("menu:", menu);
+      console.log("allergies:", allergies);
+
+      return { firstName, lastName, attend, bus, menu, allergies, personIndex: (i + 1) };
+    });
+
+    // Group ID for troubleshooting (same for all rows)
+    const groupId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `grp_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+
+    return {
+      groupId, submittedAt: new Date().toISOString(),
+      people,
+    };
+  }
+
+  async function submit(payload) {
+    // Honeypot
+    const hp = form.querySelector('input[name="website"]');
+    if (hp && hp.value) return { ok: true, skipped: true };
+
+    if (!endpoint || endpoint.includes("PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
+      return { ok: false, error: "Falta configurar el endpoint del formulario." };
+    }
+
+    try {
+      // Prefer sendBeacon: evita falsos "error de conexión" por redirects/CORS en Apps Script
+      const body = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: "text/plain;charset=utf-8" });
+        const ok = navigator.sendBeacon(endpoint, blob);
+        if (ok) return { ok: true };
+      }
+
+      // Fallback: con mode:"no-cors" la respuesta es "opaque" (no se puede leer).
+      // Si fetch no lanza error, consideramos éxito.
+      const res = await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: body,
+      });
+
+      // res existe solo por claridad; NO usamos res.ok / res.json (opaque).
+      void res;
+
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: "Error de conexión. Revisa tu internet e inténtalo de nuevo." };
+    }
+  }
+
+  // Init with one person
+  addPerson();
+
+  addBtn.addEventListener("click", () => {
+    addPerson();
+    // Scroll slightly to reveal new block (nice UX)
+    const last = wrap.querySelectorAll("[data-person]");
+    const lastEl = last[last.length - 1];
+    if (lastEl) lastEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setStatus("", "");
+
+    // Ensure we validate visible/required fields correctly
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const payload = buildPayload();
+
+    // 🔍 DEBUG: ver exactamente qué se está enviando
+    console.log("=== PAYLOAD COMPLETO ===");
+    console.log(JSON.stringify(payload, null, 2));
+
+    payload.people.forEach((p, i) => {
+      console.log(`--- Persona ${i + 1} ---`);
+      console.log("Asiste:", p.attend);
+      console.log("Autobús:", p.bus);
+      console.log("Menú:", p.menu);
+      console.log("Alergias:", p.allergies);
+    });
+
+    // Filter out empty trailing blocks (defensive)
+    payload.people = payload.people.filter((p) => (p.firstName || p.lastName || p.attend));
+
+    if (!payload.people.length) {
+      setStatus("Añade al menos una persona.", "error");
+      return;
+    }
+
+    // At least attendance must be selected
+    const missingAttend = payload.people.some((p) => !p.attend);
+    if (missingAttend) {
+      setStatus("Por favor, indica si asistirás para cada persona.", "error");
+      return;
+    }
+
+    submitBtn && (submitBtn.disabled = true);
+    addBtn.disabled = true;
+    setStatus("Enviando…", "info");
+
+    try {
+      const result = await submit(payload);
+      if (!result.ok) {
+        setStatus(result.error || "No se pudo enviar. Inténtalo de nuevo.", "error");
+        return;
+      }
+
+      setStatus("¡Listo! Hemos recibido tu confirmación. Gracias 🤍", "ok");
+      form.reset();
+      wrap.innerHTML = "";
+      personCount = 0;
+      addPerson();
+    } catch (err) {
+      setStatus("Error de conexión. Revisa tu internet e inténtalo de nuevo.", "error");
+    } finally {
+      submitBtn && (submitBtn.disabled = false);
+      addBtn.disabled = false;
+    }
+  });
+})();
+
+/* ==========================================================================
+   Calendario (Añadir evento .ics)
+   ========================================================================== */
+
+(function initAddToCalendar() {
+  const btn = document.getElementById("addToCalendarBtn");
+  if (!btn) return;
+
+  // Ajusta aquí si quieres afinar hora/descr/ubicación
+  const event = {
+    title: "Boda Radha & Dolo",
+    // 25 julio 2026. Horario aproximado (lo puedes cambiar cuando quieras).
+    // Formato local: YYYY-MM-DDTHH:MM:SS (sin zona); lo convertimos a UTC abajo.
+    startLocal: "2026-07-25T19:15:00",
+    endLocal: "2026-07-26T04:00:00",
+    location: "Valencia · Iglesia + Masía San Antonio de Poyo",
+    description:
+      "¡Nos casamos!\n\nDetalles y confirmación: " +
+      (location.href.split("#")[0] || location.href),
+  };
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  // Convierte una fecha local (del móvil) a formato UTC para ICS: YYYYMMDDTHHMMSSZ
+  function toICSDateUTC(localIso) {
+    const d = new Date(localIso);
+    return (
+      d.getUTCFullYear() +
+      pad(d.getUTCMonth() + 1) +
+      pad(d.getUTCDate()) +
+      "T" +
+      pad(d.getUTCHours()) +
+      pad(d.getUTCMinutes()) +
+      pad(d.getUTCSeconds()) +
+      "Z"
+    );
+  }
+
+  // Escapes mínimos recomendados en ICS
+  function icsEscape(text) {
+    return String(text || "")
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;");
+  }
+
+  function buildICS() {
+    const dtStart = toICSDateUTC(event.startLocal);
+    const dtEnd = toICSDateUTC(event.endLocal);
+    const uid = `radha-dolo-${Date.now()}@wedding`;
+
+    // \r\n es importante en iOS/Outlook
+    const lines = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Radha & Dolo//Boda//ES",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${uid}`,
+      `DTSTAMP:${toICSDateUTC(new Date().toISOString())}`,
+      `DTSTART:${dtStart}`,
+      `DTEND:${dtEnd}`,
+      `SUMMARY:${icsEscape(event.title)}`,
+      `LOCATION:${icsEscape(event.location)}`,
+      `DESCRIPTION:${icsEscape(event.description)}`,
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ];
+
+    return lines.join("\r\n");
+  }
+
+  function downloadICS() {
+    const ics = buildICS();
+    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    // Intento de descarga “amigable” en móvil
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "boda-radha-dolo.ics";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    downloadICS();
+  });
+})();
 
 /* ==========================================================================
    Cuenta (Copy IBAN)

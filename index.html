@@ -32,8 +32,8 @@
           <a class="nav__link" href="#info">Información</a>
           <a class="nav__link" href="#timeline">Timeline</a>
           <a class="nav__link" href="#transporte">Transporte</a>
-          <a class="nav__link" href="#cuenta">Cuenta</a>
-          <a class="nav__link nav__link--pill" href="#rsvp">Confirmación</a>
+          <a class="nav__link" href="#cuenta">Iban</a>
+          <a class="nav__link" href="#rsvp">Confirmación</a>
         </div>
       </nav>
     </div>
@@ -56,8 +56,9 @@
           <p class="hero__subtitle">Nos casamos y queremos que seas parte de nuestro momento.</p>
 
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#rsvp">Confirmar asistencia</a>
+            <a class="btn btn--secondary" href="#rsvp">Confirmar asistencia</a>
             <a class="btn btn--secondary" href="#info">Ver detalles</a>
+            <a class="btn btn--secondary" href="#" id="addToCalendarBtn">Añadir al calendario</a>
           </div>
 
           <div class="countdown" aria-label="Cuenta atrás">
@@ -95,7 +96,7 @@
             <p class="card__text">necesitamos texto aca gordita</p>
           </article>
           <article class="card">
-            <p class="card__eyebrow">La decisión</p>
+            <p class="card__eyebrow">La Desición</p>
             <p class="card__text">necesitamos texto aca gordita</p>
           </article>
         </div>
@@ -110,6 +111,13 @@
         <div class="galleryCard">
           <div class="swiper" id="momentsSwiper">
             <div class="swiper-wrapper">
+              <!-- OJO: aquí van los nombres EXACTOS de tus imágenes -->
+              <div class="swiper-slide">
+                <figure class="galleryFrame">
+                  <img src="assets/61B63DA7-3FFF-480A-B438-8ED0910DEC71_4_5005_c.jpeg" alt="Cocinando juntos"
+                    loading="lazy" />
+                </figure>
+              </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
@@ -121,13 +129,6 @@
               <div class="swiper-slide">
                 <figure class="galleryFrame">
                   <img src="assets/596D20F2-494D-42A3-8AA0-FD4BE84EA11E_1_105_c.jpeg" alt="Selfie en el pueblo"
-                    loading="lazy" />
-                </figure>
-              </div>
-
-              <div class="swiper-slide">
-                <figure class="galleryFrame">
-                  <img src="assets/61B63DA7-3FFF-480A-B438-8ED0910DEC71_4_5005_c.jpeg" alt="Navidad juntos"
                     loading="lazy" />
                 </figure>
               </div>
@@ -221,7 +222,7 @@
     <section id="timeline" class="section section--alt">
       <div class="container">
         <header class="sectionHead">
-          <h2 class="sectionHead__title">Timeline</h2>
+          <h2 class="sectionHead__title">Programa</h2>
           <p class="sectionHead__lead">Para que nadie se pierda nada ✨</p>
         </header>
 
@@ -232,6 +233,7 @@
 
           <article class="timelineItem">
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="church"></i></div>
+            <div class="timelineItem__time">18:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Misa</h3>
               <p class="timelineItem__text">Ceremonia en la iglesia.</p>
@@ -240,6 +242,7 @@
 
           <article class="timelineItem">
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="bus"></i></div>
+            <div class="timelineItem__time">19:00 – 19:30</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Bus</h3>
               <p class="timelineItem__text">Salida desde el punto de recogida cerca de la iglesia.</p>
@@ -248,6 +251,7 @@
 
           <article class="timelineItem">
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="martini"></i></div>
+            <div class="timelineItem__time">20:00 – 21:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Cóctel</h3>
               <p class="timelineItem__text">Brindis, fotos y a disfrutar con los invitados.</p>
@@ -256,6 +260,7 @@
 
           <article class="timelineItem">
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="utensils"></i></div>
+            <div class="timelineItem__time">21:00 – 23:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Cena</h3>
               <p class="timelineItem__text">Sentados para cenar.</p>
@@ -264,6 +269,7 @@
 
           <article class="timelineItem">
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="party-popper"></i></div>
+            <div class="timelineItem__time">23:00 – 3:30/4:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Fiesta + resopón</h3>
               <p class="timelineItem__text">Baile, música y resopón para cerrar la noche.</p>
@@ -312,7 +318,7 @@
         </article>
       </div>
     </section>
-    <section id="rsvp" class="section section--base">
+    <section id="rsvp" class="section section--alt">
       <div class="container">
         <header class="sectionHead">
           <h2 class="sectionHead__title">Confirmación de asistencia</h2>
@@ -321,18 +327,82 @@
         </header>
 
         <article class="card">
-          <div class="embed">
-            <iframe title="RSVP"
-              src="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform?embedded=true"
-              loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
+          <form class="rsvpForm" id="rsvpForm"
+            data-endpoint="https://script.google.com/macros/s/AKfycbzYOZoLHYO2YfO3hpXr6KEH-GY6HEoxas7SuXC8vHJa4wgC9ZpXn2nhrYiZAwHAwHmA/exec"
+            novalidate>
+            <!-- Honeypot anti-spam (hidden) -->
+            <label class="rsvpHp" aria-hidden="true">
+              No rellenar:
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </label>
 
-          <p class="small muted">
-            Si el formulario no carga, abre el enlace directo:
-            <a class="link"
-              href="https://docs.google.com/forms/d/e/1FAIpQLSenu275rK6WDc7gDwkqdcYL92zyc2to_a-oGGKe3qtWu0fFgQ/viewform"
-              target="_blank" rel="noopener">Abrir RSVP →</a>
-          </p>
+            <div class="rsvpPeople" id="peopleWrap"></div>
+
+            <div class="rsvpActions">
+              <button type="button" class="btn btn--secondary btn--sm" id="addPersonBtn">+ Añadir otra persona</button>
+              <button type="submit" class="btn btn--primary" id="submitRsvpBtn">Guardar y enviar</button>
+            </div>
+
+            <p class="small muted" id="rsvpStatus" aria-live="polite"></p>
+            <p class="small muted">La información que compartas se usará solo para la organización de la boda.</p>
+
+            <template id="personTpl">
+              <section class="rsvpPerson" data-person>
+                <div class="rsvpPerson__head">
+                  <h3 class="rsvpPerson__title">Invitado <span data-person-number></span></h3>
+                  <button type="button" class="btn btn--secondary btn--sm rsvpRemove" data-remove>Eliminar</button>
+                </div>
+
+                <div class="rsvpGrid">
+                  <label class="rsvpField">
+                    <span class="rsvpLabel">Nombre</span>
+                    <input class="rsvpInput" type="text" data-name="firstName" autocomplete="given-name" required />
+                  </label>
+
+                  <label class="rsvpField">
+                    <span class="rsvpLabel">Apellidos</span>
+                    <input class="rsvpInput" type="text" data-name="lastName" autocomplete="family-name" required />
+                  </label>
+                </div>
+
+                <div class="rsvpField">
+                  <span class="rsvpLabel">¿Asistirás a la boda?</span>
+                  <div class="rsvpChoices" role="radiogroup" aria-label="Asistencia">
+                    <label class="rsvpChoice"><input type="radio" data-name="attend" value="SI" required /> Sí</label>
+                    <label class="rsvpChoice"><input type="radio" data-name="attend" value="NO" required /> No</label>
+                  </div>
+                </div>
+
+                <div class="rsvpConditional" data-when-attend hidden>
+                  <div class="rsvpField">
+                    <span class="rsvpLabel">¿Vendrás en autobús?</span>
+                    <div class="rsvpChoices" role="radiogroup" aria-label="Autobús">
+                      <label class="rsvpChoice"><input type="radio" data-name="bus" value="SI" /> Sí</label>
+                      <label class="rsvpChoice"><input type="radio" data-name="bus" value="NO" /> No</label>
+                    </div>
+                  </div>
+
+                  <div class="rsvpField">
+                    <span class="rsvpLabel">Preferencia de menú</span>
+                    <div class="rsvpChoices rsvpChoices--stack" role="radiogroup" aria-label="Menú">
+                      <label class="rsvpChoice"><input type="radio" data-name="menu" value="VEGETARIANO" /> Vegetariano
+                        🥦</label>
+                      <label class="rsvpChoice"><input type="radio" data-name="menu" value="CARNE_PESCADO" /> Carne 🥩 /
+                        Pescado
+                        🐟</label>
+                      <label class="rsvpChoice"><input type="radio" data-name="menu" value="VEGANO" /> Vegano 🥬</label>
+                    </div>
+                  </div>
+
+                  <label class="rsvpField">
+                    <span class="rsvpLabel">Alergias / intolerancias alimentarias</span>
+                    <textarea class="rsvpTextarea" data-name="allergies" rows="2"
+                      placeholder="Escribe aquí tu respuesta"></textarea>
+                  </label>
+                </div>
+              </section>
+            </template>
+          </form>
         </article>
       </div>
     </section>
@@ -342,6 +412,9 @@
       </div>
     </footer>
   </main>
+
+  <a class="stickyCta" id="stickyCta" href="#rsvp" aria-label="Confirmar asistencia">Confirmar asistencia</a>
+
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
