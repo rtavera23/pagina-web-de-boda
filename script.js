@@ -768,16 +768,14 @@ function pad2(n) {
   });
 })();
 
-// ===== Cupido flip =====
+// ===== Cupido flip (pointer-safe) =====
 (() => {
   const card = document.getElementById("cupidoCard");
   if (!card) return;
 
-  const toggle = (e) => {
+  card.addEventListener("pointerup", (e) => {
+    // evita seleccionar/arrastrar la imagen al tocar
     e.preventDefault();
     card.classList.toggle("is-flipped");
-  };
-
-  card.addEventListener("click", toggle);
-  card.addEventListener("touchend", toggle, { passive: false });
+  });
 })();
