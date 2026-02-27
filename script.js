@@ -767,3 +767,17 @@ function pad2(n) {
     }
   });
 })();
+
+// ===== Cupido flip =====
+(() => {
+  const card = document.getElementById("cupidoCard");
+  if (!card) return;
+
+  const toggle = (e) => {
+    e.preventDefault();
+    card.classList.toggle("is-flipped");
+  };
+
+  card.addEventListener("click", toggle);
+  card.addEventListener("touchend", toggle, { passive: false });
+})();

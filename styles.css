@@ -1077,3 +1077,96 @@ strong {
     letter-spacing: 0.06em;
   }
 }
+
+/* ==========================================================================
+   Historia (nuevo layout)
+   ========================================================================== */
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.storyMedia .photoCard {
+  padding: 14px;
+}
+
+.storyContent {
+  display: flex;
+}
+
+.storyCard {
+  width: 100%;
+}
+
+.storyText {
+  margin-top: 10px;
+  line-height: 1.65;
+}
+
+/* Mobile */
+@media (max-width: 860px) {
+  .storyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .storyMedia {
+    order: -1; /* Foto arriba en móvil */
+  }
+}
+
+/* ===== CUPIDO FLIP (SINGLE SOURCE OF TRUTH) ===== */
+#cupidoCard{
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+#cupidoCard .flipCard__inner{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;                 /* da altura */
+  border-radius: 24px;
+  overflow: hidden;
+
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+
+  transition: transform 0.85s cubic-bezier(.22,.68,.18,1);
+}
+
+#cupidoCard.is-flipped .flipCard__inner{
+  transform: rotateY(180deg);
+}
+
+#cupidoCard .flipCard__face{
+  position: absolute;
+  inset: 0;
+
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+
+  transform: translateZ(0.1px);
+}
+
+#cupidoCard .flipCard__front{
+  transform: rotateY(0deg) translateZ(0.1px);
+}
+
+#cupidoCard .flipCard__back{
+  transform: rotateY(180deg) translateZ(0.1px);
+}
+
+#cupidoCard .flipCard__face img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Debug: si el back no carga, verás este fondo */
+#cupidoCard .flipCard__back{
+  background: rgba(255, 0, 0, 0.08);
+}

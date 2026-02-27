@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radha & Dolo · Boda</title>
+  <title>Dolo & Radha · Boda</title>
 
   <!-- Swiper (carousel) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -17,7 +17,7 @@
   <header class="site-header" id="top">
     <div class="container header__inner">
       <a class="brand" href="#top" aria-label="Ir al inicio">
-        <span class="brand__text">Radha &amp; Dolo</span>
+        <span class="brand__text">Dolo &amp; Radha</span>
       </a>
 
       <nav class="nav" aria-label="Navegación principal">
@@ -52,13 +52,13 @@
 
         <div class="hero__copy">
           <p class="kicker">Valencia · 25 de julio de 2026</p>
-          <h1 class="hero__title">Radha &amp; Dolo</h1>
+          <h1 class="hero__title">Dolo &amp; Radha</h1>
           <p class="hero__subtitle">Nos casamos y queremos que seas parte de nuestro momento.</p>
 
           <div class="hero__actions">
             <a class="btn btn--secondary" href="#rsvp">Confirmar asistencia</a>
             <a class="btn btn--secondary" href="#info">Ver detalles</a>
-            <a class="btn btn--secondary" href="#" id="addToCalendarBtn">Añadir al calendario</a>
+            <!-- <a class="btn btn--secondary" href="#" id="addToCalendarBtn">Añadir al calendario</a> -->
           </div>
 
           <div class="countdown" aria-label="Cuenta atrás">
@@ -83,22 +83,44 @@
       <div class="container">
         <header class="sectionHead">
           <h2 class="sectionHead__title">Nuestra historia</h2>
-          <p class="sectionHead__lead">necesitamos texto aca gordita</p>
         </header>
 
-        <div class="cardsGrid cardsGrid--3">
-          <article class="card">
-            <p class="card__eyebrow">Cómo empezó</p>
-            <p class="card__text">necesitamos texto aca gordita</p>
-          </article>
-          <article class="card">
-            <p class="card__eyebrow">Momentos favoritos</p>
-            <p class="card__text">necesitamos texto aca gordita</p>
-          </article>
-          <article class="card">
-            <p class="card__eyebrow">La Desición</p>
-            <p class="card__text">necesitamos texto aca gordita</p>
-          </article>
+        <div class="storyGrid">
+
+          <!-- FOTO -->
+          <div class="storyMedia">
+            <figure class="photoCard flipCard" id="cupidoCard">
+              <div class="flipCard__inner">
+
+                <!-- FRONT (foto actual) -->
+                <div class="flipCard__face flipCard__front">
+                  <img class="photoCard__img" src="assets/alecupido.png"
+                    alt="Radha y Dolo juntos" />
+                </div>
+
+                <!-- BACK (cupido) -->
+                <div class="flipCard__face flipCard__back">
+                  <img class="photoCard__img" src="assets/alecupido.png" alt="Nuestro cupido" />
+                </div>
+              </div>
+            </figure>
+          </div>
+
+          <!-- CONTENIDO -->
+          <div class="storyContent">
+            <article class="card storyCard">
+              <p class="card__eyebrow">Cómo empezó</p>
+
+              <p class="storyText">
+                Todo comenzo gracias a la personita que esta en la foto, nuestro cupido que no queria ser
+                cupido.
+              </p>
+
+              <p class="storyText">
+                Para mas informacion le podemos pasar el contacto, ya que da buenos resultados su trabajo.
+            </article>
+          </div>
+
         </div>
       </div>
     </section>
@@ -112,68 +134,56 @@
           <div class="swiper" id="momentsSwiper">
             <div class="swiper-wrapper">
               <!-- OJO: aquí van los nombres EXACTOS de tus imágenes -->
+
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/61B63DA7-3FFF-480A-B438-8ED0910DEC71_4_5005_c.jpeg" alt="Cocinando juntos"
-                    loading="lazy" />
+                  <img src="assets/38FDBC9E-4C5E-4F05-B360-8CE1FADD0A9F.jpeg" alt="Foto iglesia" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/56B8D874-6E19-495C-B20A-B4E1A994FA40_4_5005_c.jpeg" alt="Abrazo en casa"
-                    loading="lazy" />
+                  <img src="assets/foto-cocina.jpeg" alt="Cocinando juntos" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/596D20F2-494D-42A3-8AA0-FD4BE84EA11E_1_105_c.jpeg" alt="Selfie en el pueblo"
-                    loading="lazy" />
+                  <img src="assets/foto-navidad.jpeg" alt="Foto Navidad" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/933CDB69-E65C-448B-ACD7-A7E6AE188C63_1_105_c.jpeg" alt="Foto en la masía"
-                    loading="lazy" />
+                  <img src="assets/foto-playa.jpeg" alt="Foto Playita" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/1C40F413-C0C3-44C4-8DE7-F2A97DB26B4E_1_105_c.jpeg" alt="En el puerto"
-                    loading="lazy" />
+                  <img src="assets/boda-masia.jpeg" alt="Foto Masia" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/FD2D3177-992D-4C29-BF6B-ECD268903546_1_105_c.jpeg" alt="Selfie con anillo"
-                    loading="lazy" />
+                  <img src="assets/596D20F2-494D-42A3-8AA0-FD4BE84EA11E_1_105_c.jpeg" alt="Michelin" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/11C472C3-BF97-4774-BA92-E1B3E7F3A89E_4_5005_c.jpeg" alt="En el mirador"
-                    loading="lazy" />
+                  <img src="assets/11C472C3-BF97-4774-BA92-E1B3E7F3A89E_4_5005_c.jpeg" alt="Muntayita" loading="lazy" />
                 </figure>
               </div>
 
               <div class="swiper-slide">
                 <figure class="galleryFrame">
-                  <img src="assets/796A1904-1C32-4251-8623-8853729F5187_1_105_c.jpeg" alt="Abrazo en exterior"
+                  <img src="assets/56B8D874-6E19-495C-B20A-B4E1A994FA40_4_5005_c.jpeg" alt="Bailando para todo la vida"
                     loading="lazy" />
                 </figure>
               </div>
 
-              <div class="swiper-slide">
-                <figure class="galleryFrame">
-                  <img src="assets/1EE2C79C-D979-46F3-B47C-FD654EA6A058_1_105_c.jpeg" alt="Foto en restaurante"
-                    loading="lazy" />
-                </figure>
-              </div>
             </div>
 
             <!-- bullets -->
@@ -194,7 +204,7 @@
 
         <div class="cardsGrid cardsGrid--2">
           <article class="card">
-            <h3 class="card__title">Ceremonia</h3>
+            <h3 class="card__title">Ceremonia Religiosa</h3>
             <p class="card__text">
               <strong>Parroquia Epifanía del Señor y Santo Tomás de Villanueva</strong><br />
               C/ de Montitxelvo, 16-18, Quatre Carreres, 46006 València
@@ -206,7 +216,7 @@
           </article>
 
           <article class="card">
-            <h3 class="card__title">Convite</h3>
+            <h3 class="card__title">Celebración</h3>
             <p class="card__text">
               <strong>Masía San Antonio De Poyo</strong><br />
               Polígono Industrial La Reva, Sector 13, Masía San Antonio, s/n, 46190, Valencia
@@ -235,8 +245,8 @@
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="church"></i></div>
             <div class="timelineItem__time">18:00</div>
             <div class="timelineItem__card">
-              <h3 class="timelineItem__title">Misa</h3>
-              <p class="timelineItem__text">Ceremonia en la iglesia.</p>
+              <h3 class="timelineItem__title">Ceremonia Religiosa</h3>
+              <!-- <p class="timelineItem__text">Ceremonia en la iglesia.</p> -->
             </div>
           </article>
 
@@ -244,8 +254,8 @@
             <div class="timelineItem__icon" aria-hidden="true"><i data-lucide="bus"></i></div>
             <div class="timelineItem__time">19:00 – 19:30</div>
             <div class="timelineItem__card">
-              <h3 class="timelineItem__title">Bus</h3>
-              <p class="timelineItem__text">Salida desde el punto de recogida cerca de la iglesia.</p>
+              <h3 class="timelineItem__title">Autobús</h3>
+              <!-- <p class="timelineItem__text">Salida desde el punto de recogida cerca de la iglesia.</p> -->
             </div>
           </article>
 
@@ -254,7 +264,7 @@
             <div class="timelineItem__time">20:00 – 21:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Cóctel</h3>
-              <p class="timelineItem__text">Brindis, fotos y a disfrutar con los invitados.</p>
+              <!-- <p class="timelineItem__text">Brindis, fotos y a disfrutar con los invitados.</p> -->
             </div>
           </article>
 
@@ -263,7 +273,7 @@
             <div class="timelineItem__time">21:00 – 23:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Cena</h3>
-              <p class="timelineItem__text">Sentados para cenar.</p>
+              <!-- <p class="timelineItem__text">Sentados para cenar.</p> -->
             </div>
           </article>
 
@@ -272,7 +282,7 @@
             <div class="timelineItem__time">23:00 – 3:30/4:00</div>
             <div class="timelineItem__card">
               <h3 class="timelineItem__title">Fiesta + resopón</h3>
-              <p class="timelineItem__text">Baile, música y resopón para cerrar la noche.</p>
+              <!-- <p class="timelineItem__text">Baile, música y resopón para cerrar la noche.</p> -->
             </div>
           </article>
         </div>
@@ -286,8 +296,8 @@
 
         <article class="card">
           <p class="card__text">
-            Tendremos <strong>1 bus</strong> con punto de recogida cerca de la iglesia (actualizaremos la ubicación y
-            la hora). También habrá <strong>bus de regreso</strong> al final de la fiesta (hora y destino por
+            Tendremos 1 autobús con punto de recogida cerca de la iglesia (actualizaremos la ubicación y
+            la hora). También habrá autobús de regreso al final de la fiesta (hora y destino por
             confirmar).
           </p>
         </article>
@@ -297,11 +307,11 @@
       <div class="container">
         <header class="sectionHead">
           <h2 class="sectionHead__title">Cuenta</h2>
-          <p class="sectionHead__lead">Si quieres hacernos un regalo, puedes hacerlo por transferencia bancaria.</p>
+          <p class="sectionHead__lead">El mejor regalo es compartir este día contigo, aún así agradecemos que quieras ayudarnos en nuestra nueva etapa de vida.</p>
         </header>
 
         <article class="card bankCard" aria-label="Datos bancarios">
-          <p class="card__eyebrow">IBAN</p>
+          <p class="card__eyebrow">IBAN - Dolores Sala Trull</p>
 
           <div class="bankIban">
             <code class="ibanCode" id="ibanValue">ES69&nbsp;0186&nbsp;5001&nbsp;6405&nbsp;2707&nbsp;0487</code>
@@ -382,7 +392,7 @@
                     </div>
                   </div>
 
-                  <div class="rsvpField">
+                  <!-- <div class="rsvpField">
                     <span class="rsvpLabel">Preferencia de menú</span>
                     <div class="rsvpChoices rsvpChoices--stack" role="radiogroup" aria-label="Menú">
                       <label class="rsvpChoice"><input type="radio" data-name="menu" value="VEGETARIANO" /> Vegetariano
@@ -392,7 +402,7 @@
                         🐟</label>
                       <label class="rsvpChoice"><input type="radio" data-name="menu" value="VEGANO" /> Vegano 🥬</label>
                     </div>
-                  </div>
+                  </div> -->
 
                   <label class="rsvpField">
                     <span class="rsvpLabel">Alergias / intolerancias alimentarias</span>
@@ -408,7 +418,7 @@
     </section>
     <footer class="footer">
       <div class="container footer__inner">
-        <span>Radha &amp; Dolo · 25 de julio de 2026 · Valencia</span>
+        <span>Dolo &amp; Radha · 25 de julio de 2026 · Valencia</span>
       </div>
     </footer>
   </main>
