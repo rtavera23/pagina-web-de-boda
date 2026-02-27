@@ -1,179 +1,348 @@
-/**
- * Radha & Dolo - script.js
- * - AOS init
- * - Mobile nav drawer
- * - Swiper init (galería)
- * - Countdown
- * - RSVP code gate (bloquea/desbloquea iframe)
- */
+/* ==========================================================================
+   Helpers
+   ========================================================================== */
 
-(function initAOS() {
-  if (!window.AOS) return;
-  AOS.init({
-    duration: 800,
-    once: true,
-    offset: 80,
-    easing: "ease-out-cubic",
-  });
-})();
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
 
-/* =========================
-   NAV MOBILE (drawer)
-========================= */
+/* ==========================================================================
+   Mobile nav
+   ========================================================================== */
+
 (function initMobileNav() {
-  const header = document.getElementById("siteNav");
-  const btn = document.getElementById("navToggle");
-  const menu = document.getElementById("navMenu");
-  const backdrop = document.getElementById("navBackdrop");
+  const toggle = document.getElementById("navToggle");
+  const drawer = document.getElementById("navDrawer");
+  if (!toggle || !drawer) return;
 
-  if (!header || !btn || !menu || !backdrop) return;
-
-  const openClass = "is-open";
-
-  function openMenu() {
-    header.classList.add(openClass);
-    btn.setAttribute("aria-expanded", "true");
-    document.body.style.overflow = "hidden";
+  function open() {
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Cerrar menú");
   }
 
-  function closeMenu() {
-    header.classList.remove(openClass);
-    btn.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
+  function close() {
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Abrir menú");
   }
 
-  btn.addEventListener("click", () => {
-    const isOpen = header.classList.contains(openClass);
-    isOpen ? closeMenu() : openMenu();
+  toggle.addEventListener("click", () => {
+    const isOpen = drawer.classList.contains("is-open");
+    isOpen ? close() : open();
   });
 
-  backdrop.addEventListener("click", closeMenu);
-
-  // Cerrar al hacer click en un link
-  menu.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
-
-  // Cerrar con ESC
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMenu();
+  // Close on link click (mobile UX)
+  drawer.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", () => close());
   });
 
-  // Cerrar si cambias a desktop
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 860) closeMenu();
+  // Close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  // Close on outside click (mobile)
+  document.addEventListener("click", (e) => {
+    const isOpen = drawer.classList.contains("is-open");
+    if (!isOpen) return;
+    if (drawer.contains(e.target) || toggle.contains(e.target)) return;
+    close();
   });
 })();
 
-/* =========================
-   SWIPER (Galería)
-========================= */
-(function initSwiper() {
-  if (!window.Swiper) return;
-  const el = document.querySelector(".wedding-swiper");
-  if (!el) return;
+/* ==========================================================================
+   Countdown
+   ========================================================================== */
 
-  new Swiper(".wedding-swiper", {
-    loop: true,
-    speed: 650,
+(function initCountdown() {
+  const elDays = document.getElementById("cdDays");
+  const elHours = document.getElementById("cdHours");
+  const elMinutes = document.getElementById("cdMinutes");
+  if (!elDays || !elHours || !elMinutes) return;
+
+  // 25 Jul 2026, 18:00 en Valencia (verano: +02:00)
+  const target = new Date(Date.UTC(2026, 6, 25, 16, 0, 0)); // 18:00 en Valencia (CEST, UTC+2)
+
+  function tick() {
+    const now = new Date();
+    let diff = target.getTime() - now.getTime();
+
+    if (diff <= 0) {
+      elDays.textContent = "0";
+      elHours.textContent = "0";
+      elMinutes.textContent = "0";
+      return;
+    }
+
+    const minutesTotal = Math.floor(diff / 60000);
+    const days = Math.floor(minutesTotal / (60 * 24));
+    const hours = Math.floor((minutesTotal - days * 60 * 24) / 60);
+    const minutes = minutesTotal % 60;
+
+    elDays.textContent = String(days);
+    elHours.textContent = pad2(hours);
+    elMinutes.textContent = pad2(minutes);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ==========================================================================
+   Swiper gallery
+   ========================================================================== */
+
+(function initGallerySwiper() {
+  const el = document.getElementById("momentsSwiper");
+  if (!el || typeof Swiper === "undefined") return;
+
+  // eslint-disable-next-line no-unused-vars
+  const swiper = new Swiper("#momentsSwiper", {
     slidesPerView: 1,
-    spaceBetween: 18,
+    spaceBetween: 14,
+    centeredSlides: true,
+    speed: 650,
+    loop: true,
     grabCursor: true,
-    keyboard: { enabled: true },
 
-    // suave y elegante
-    effect: "slide",
-
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+    autoplay: {
+      delay: 4200,
+      disableOnInteraction: false,
     },
 
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
     },
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    breakpoints: {
+      860: {
+        slidesPerView: 2,
+        centeredSlides: false,
+        spaceBetween: 16,
+      },
+      1100: {
+        slidesPerView: 3,
+        centeredSlides: false,
+        spaceBetween: 18,
+      },
+    },
   });
 })();
 
-/* =========================
-   COUNTDOWN
-========================= */
-(function initCountdown() {
-  const $d = document.getElementById("d");
-  const $h = document.getElementById("h");
-  const $m = document.getElementById("m");
-  if (!$d || !$h || !$m) return;
+/* ==========================================================================
+   Timeline wow (IntersectionObserver + Lucide icons)
+   ========================================================================== */
 
-  // 25 Jul 2026 18:00 España (ajústalo si quieres)
-  const target = new Date("2026-07-25T18:00:00+02:00").getTime();
-
-  function tick() {
-    const now = Date.now();
-    let diff = Math.max(0, target - now);
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    diff -= days * (1000 * 60 * 60 * 24);
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    diff -= hours * (1000 * 60 * 60);
-    const mins = Math.floor(diff / (1000 * 60));
-
-    $d.textContent = String(days);
-    $h.textContent = String(hours).padStart(2, "0");
-    $m.textContent = String(mins).padStart(2, "0");
+(function initTimelineObserver() {
+  // Render lucide icons (CDN)
+  if (window.lucide && typeof window.lucide.createIcons === "function") {
+    window.lucide.createIcons();
   }
 
-  tick();
-  setInterval(tick, 30 * 1000);
+  const timeline = document.querySelector(".timeline");
+  const line = timeline ? timeline.querySelector(".timeline__line") : null;
+  const progress = timeline ? timeline.querySelector(".timeline__progress") : null;
+
+  const items = Array.from(document.querySelectorAll(".timelineItem"));
+  if (!items.length) return;
+
+  // Stagger delays (nice on first scroll)
+  items.forEach((el, idx) => {
+    el.style.setProperty("--stagger", `${Math.min(idx * 70, 420)}ms`);
+  });
+
+  function getYTo(target) {
+    if (!timeline || !line) return 0;
+
+    // Use icon center as reference
+    const icon = target.querySelector(".timelineItem__icon") || target;
+    const tRect = timeline.getBoundingClientRect();
+    const iRect = icon.getBoundingClientRect();
+
+    const centerY = (iRect.top + iRect.bottom) / 2 - tRect.top;
+
+    // Clamp inside the line track
+    const topPad = 8;
+    const bottomPad = 8;
+    const maxY = tRect.height - topPad - bottomPad;
+
+    return Math.max(0, Math.min(centerY - topPad, maxY));
+  }
+
+  let raf = 0;
+  function updateProgress(target) {
+    if (!progress) return;
+
+    const y = getYTo(target);
+
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      progress.style.height = `${y}px`;
+    });
+  }
+
+  function setActive(target) {
+    items.forEach((el) => el.classList.toggle("is-active", el === target));
+    updateProgress(target);
+  }
+
+  // Reveal observer (cards enter smoothly)
+  const revealIO = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-revealed");
+          revealIO.unobserve(e.target);
+        }
+      });
+    },
+    { root: null, threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
+  );
+
+  items.forEach((el) => revealIO.observe(el));
+
+  // Active observer (highlight + progress line follows)
+  setActive(items[0]);
+  items[0].classList.add("is-revealed");
+  updateProgress(items[0]);
+
+  const activeIO = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible && visible.target) {
+        setActive(visible.target);
+      }
+    },
+    {
+      root: null,
+      threshold: [0.25, 0.35, 0.45, 0.55, 0.65],
+      rootMargin: "-20% 0px -55% 0px",
+    }
+  );
+
+  items.forEach((el) => activeIO.observe(el));
+
+  // Keep progress aligned on resize/orientation changes
+  window.addEventListener("resize", () => {
+    const current = items.find((el) => el.classList.contains("is-active")) || items[0];
+    updateProgress(current);
+  });
 })();
 
-/* =========================
-   RSVP GATE (código opcional)
-========================= */
-(function initRSVPGate() {
-  const CODE = "bodadoloyradha"; // tu código (en minúsculas)
 
-  const input = document.getElementById("rsvpCode");
-  const btn = document.getElementById("rsvpUnlock");
-  const msg = document.getElementById("rsvpGateMsg");
-  const embed = document.getElementById("rsvpEmbed");
-  const lock = document.getElementById("rsvpLock");
+/* ==========================================================================
+   Scroll-spy (active menu link)
+   ========================================================================== */
 
-  if (!input || !btn || !msg || !embed || !lock) return;
+(function initScrollSpy() {
+  const links = Array.from(document.querySelectorAll('.nav__drawer a[href^="#"]'));
+  if (!links.length) return;
 
-  function unlock() {
-    const value = (input.value || "").trim().toLowerCase();
+  const sections = links
+    .map((a) => {
+      const id = a.getAttribute("href")?.slice(1);
+      const el = id ? document.getElementById(id) : null;
+      return el ? { id, el, a } : null;
+    })
+    .filter(Boolean);
 
-    if (value !== CODE) {
-      msg.textContent = "Código incorrecto. Prueba de nuevo.";
-      msg.classList.remove("muted");
+  if (!sections.length) return;
+
+  function setActive(id) {
+    links.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${id}`));
+  }
+
+  setActive(sections[0].id);
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible?.target?.id) setActive(visible.target.id);
+    },
+    {
+      root: null,
+      threshold: [0.18, 0.28, 0.38, 0.48, 0.58],
+      rootMargin: "-18% 0px -62% 0px",
+    }
+  );
+
+  sections.forEach(({ el }) => io.observe(el));
+})();
+
+
+
+/* ==========================================================================
+   Cuenta (Copy IBAN)
+   ========================================================================== */
+
+(function initCopyIban() {
+  const btn = document.getElementById("copyIbanBtn");
+  const ibanEl = document.getElementById("ibanValue");
+  const status = document.getElementById("copyIbanStatus");
+  if (!btn || !ibanEl) return;
+
+  function getIbanToCopy() {
+    // Copy without spaces for maximum compatibility
+    return (ibanEl.textContent || "").replace(/[\s\u00A0]/g, "");
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      await navigator.clipboard.writeText(text);
       return;
     }
 
-    embed.classList.remove("is-locked");
-    lock.style.display = "none";
-    msg.textContent = "Perfecto ✅";
-    msg.classList.add("muted");
-
-    // recordar en el navegador
-    try {
-      localStorage.setItem("rsvpUnlocked", "1");
-    } catch (e) {}
-
-    // asegurar que el usuario vea el iframe
-    setTimeout(() => {
-      embed.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
+    // Fallback (older browsers)
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
   }
 
-  // auto-desbloquear si ya lo abrió antes
-  try {
-    if (localStorage.getItem("rsvpUnlocked") === "1") {
-      input.value = CODE;
-      unlock();
-    }
-  } catch (e) {}
+  let t = 0;
 
-  btn.addEventListener("click", unlock);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") unlock();
+  btn.addEventListener("click", async () => {
+    const iban = getIbanToCopy();
+    if (!iban) return;
+
+    btn.disabled = true;
+    const prevText = btn.textContent;
+
+    try {
+      await copyText(iban);
+      btn.textContent = "Copiado ✓";
+      if (status) status.textContent = "Copiado al portapapeles";
+    } catch (e) {
+      btn.textContent = "No se pudo copiar";
+      if (status) status.textContent = "Selecciona y copia manualmente";
+    } finally {
+      clearTimeout(t);
+      t = window.setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = prevText;
+        if (status) status.textContent = "";
+      }, 2200);
+    }
   });
 })();
