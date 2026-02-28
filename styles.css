@@ -1118,61 +1118,52 @@ strong {
   }
 }
 
-/* ===== CUPIDO FLIP (clean + reliable) ===== */
+/* ===== CUPIDO (NO 3D) — crossfade estable ===== */
 #cupidoCard{
   cursor: pointer;
-  perspective: 1200px;
-  -webkit-perspective: 1200px;
-  touch-action: manipulation; /* evita doble tap raro en mobile */
+  touch-action: manipulation;
 }
 
+/* mantenemos tu layout estable */
 #cupidoCard .flipCard__inner{
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;            /* altura estable */
+  aspect-ratio: 4 / 5;
   border-radius: calc(var(--radius-xl) - 10px);
   overflow: hidden;
 
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-
-  transition: transform 0.85s cubic-bezier(.22,.68,.18,1);
-  will-change: transform;
+  /* aislamiento para evitar repaints raros */
+  contain: layout paint size;
+  isolation: isolate;
 }
 
-#cupidoCard.is-flipped .flipCard__inner{
-  transform: rotateY(180deg);
-}
-
+/* las dos caras apiladas, sin transforms 3D */
 #cupidoCard .flipCard__face{
   position: absolute;
   inset: 0;
-  display: block;
-
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-
-  /* “empujón” para evitar que se vea el mirrored del front */
-  transform: translateZ(1px);
+  opacity: 0;
+  transition: opacity .22s ease;
+  will-change: opacity;
 }
 
+/* por defecto se ve el front */
 #cupidoCard .flipCard__front{
-  transform: rotateY(0deg) translateZ(1px);
+  opacity: 1;
 }
 
-#cupidoCard .flipCard__back{
-  transform: rotateY(180deg) translateZ(1px);
+/* cuando está flipped, se ve el back */
+#cupidoCard.is-flipped .flipCard__front{
+  opacity: 0;
+}
+#cupidoCard.is-flipped .flipCard__back{
+  opacity: 1;
 }
 
-/* IMPORTANTE: backface también en la IMG (Safari/Chrome a veces lo necesita) */
+/* imagen full */
 #cupidoCard img{
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position:80% center;
   display: block;
-
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-
-  transform: translateZ(0);
 }

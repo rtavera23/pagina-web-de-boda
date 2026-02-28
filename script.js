@@ -768,13 +768,31 @@ function pad2(n) {
   });
 })();
 
-// ===== Cupido flip (pointer-safe) =====
+
+// ===== Cupido swap (stable crossfade) =====
 (() => {
   const card = document.getElementById("cupidoCard");
   if (!card) return;
 
+  const imgs = card.querySelectorAll("img");
+
+  // Preload/decode para evitar cualquier flash en el primer click
+  const warmup = async (img) => {
+    if (!img) return;
+    try {
+      if (!img.complete) {
+        await new Promise((res, rej) => {
+          img.addEventListener("load", res, { once: true });
+          img.addEventListener("error", rej, { once: true });
+        });
+      }
+      if (img.decode) await img.decode();
+    } catch (_) {}
+  };
+
+  Promise.all([...imgs].map(warmup));
+
   card.addEventListener("pointerup", (e) => {
-    // evita seleccionar/arrastrar la imagen al tocar
     e.preventDefault();
     card.classList.toggle("is-flipped");
   });
