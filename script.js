@@ -475,18 +475,11 @@ function pad2(n) {
       const attend = getValue(personEl, `attend_${idx}`);
 
       const bus = attend === "SI" ? getValue(personEl, `bus_${idx}`) : "";
-      const menu = attend === "SI" ? getValue(personEl, `menu_${idx}`) : "";
       const allergies = attend === "SI" ? getValue(personEl, `allergies_${idx}`) : "";
+      const song = attend === "SI" ? getValue(personEl, `song_${idx}`) : "";
 
-      console.log("=== VALORES CRUDOS DESDE DOM ===");
-      console.log("firstName:", firstName);
-      console.log("lastName:", lastName);
-      console.log("attend:", attend);
-      console.log("bus:", bus);
-      console.log("menu:", menu);
-      console.log("allergies:", allergies);
+      return { firstName, lastName, attend, bus, allergies, song, personIndex: (i + 1) };
 
-      return { firstName, lastName, attend, bus, menu, allergies, personIndex: (i + 1) };
     });
 
     // Group ID for troubleshooting (same for all rows)
@@ -612,7 +605,6 @@ function pad2(n) {
 /* ==========================================================================
    Calendario (Añadir evento .ics)
    ========================================================================== */
-
 (function initAddToCalendar() {
   const btn = document.getElementById("addToCalendarBtn");
   if (!btn) return;
@@ -710,7 +702,6 @@ function pad2(n) {
 /* ==========================================================================
    Cuenta (Copy IBAN)
    ========================================================================== */
-
 (function initCopyIban() {
   const btn = document.getElementById("copyIbanBtn");
   const ibanEl = document.getElementById("ibanValue");
