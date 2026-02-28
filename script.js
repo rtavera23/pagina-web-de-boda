@@ -611,7 +611,7 @@ function pad2(n) {
 
   // Ajusta aquí si quieres afinar hora/descr/ubicación
   const event = {
-    title: "Boda Radha & Dolo",
+    title: "Boda Dolo & Radha",
     // 25 julio 2026. Horario aproximado (lo puedes cambiar cuando quieras).
     // Formato local: YYYY-MM-DDTHH:MM:SS (sin zona); lo convertimos a UTC abajo.
     startLocal: "2026-07-25T19:15:00",
@@ -653,13 +653,13 @@ function pad2(n) {
   function buildICS() {
     const dtStart = toICSDateUTC(event.startLocal);
     const dtEnd = toICSDateUTC(event.endLocal);
-    const uid = `radha-dolo-${Date.now()}@wedding`;
+    const uid = `dolo-radha-${Date.now()}@wedding`;
 
     // \r\n es importante en iOS/Outlook
     const lines = [
       "BEGIN:VCALENDAR",
       "VERSION:2.0",
-      "PRODID:-//Radha & Dolo//Boda//ES",
+      "PRODID:-//Dolo & Radha//Boda//ES",
       "CALSCALE:GREGORIAN",
       "METHOD:PUBLISH",
       "BEGIN:VEVENT",
@@ -685,7 +685,7 @@ function pad2(n) {
     // Intento de descarga “amigable” en móvil
     const a = document.createElement("a");
     a.href = url;
-    a.download = "boda-radha-dolo.ics";
+    a.download = "boda-dolo-radha.ics";
     document.body.appendChild(a);
     a.click();
     a.remove();
