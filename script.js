@@ -626,7 +626,7 @@ function pad2(n) {
     return String(n).padStart(2, "0");
   }
 
-  // Convierte una fecha local (del móvil) a formato UTC para ICS: YYYYMMDDTHHMMSSZ
+  // Convierte una fecha local (del dispositivo) a formato UTC para ICS/Google: YYYYMMDDTHHMMSSZ
   function toICSDateUTC(localIso) {
     const d = new Date(localIso);
     return (
@@ -682,7 +682,6 @@ function pad2(n) {
     const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
 
-    // Intento de descarga “amigable” en móvil
     const a = document.createElement("a");
     a.href = url;
     a.download = "boda-dolo-radha.ics";
@@ -693,9 +692,73 @@ function pad2(n) {
     setTimeout(() => URL.revokeObjectURL(url), 1500);
   }
 
+  function formatForGoogle(localIso) {
+    // Google espera UTC en formato YYYYMMDDTHHMMSSZ
+    return toICSDateUTC(localIso);
+  }
+
+  function buildGoogleUrl() {
+    const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
+    const dates = `${formatForGoogle(event.startLocal)}/${formatForGoogle(event.endLocal)}`;
+
+    const params = new URLSearchParams({
+      text: event.title,
+      dates,
+      details: event.description,
+      location: event.location,
+    });
+
+    return `${base}&${params.toString()}`;
+  }
+
+  function buildOutlookUrl() {
+    // Outlook web acepta ISO con Z (toISOString)
+    const base = "https://outlook.live.com/calendar/0/deeplink/compose";
+    const params = new URLSearchParams({
+      subject: event.title,
+      startdt: new Date(event.startLocal).toISOString(),
+      enddt: new Date(event.endLocal).toISOString(),
+      body: event.description,
+      location: event.location,
+      path: "/calendar/action/compose",
+    });
+    return `${base}?${params.toString()}`;
+  }
+
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  function isAndroid() {
+    return /Android/.test(navigator.userAgent);
+  }
+
+  function openUrl(url) {
+    // En móvil suele ir mejor así que window.open (popups)
+    window.location.href = url;
+  }
+
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    downloadICS();
+
+    // Opción “inteligente” por defecto:
+    if (isAndroid()) {
+      // Android: Google Calendar link suele ser lo más fluido
+      openUrl(buildGoogleUrl());
+      return;
+    }
+
+    if (isIOS()) {
+      // iOS: el .ics es lo más compatible (abre Calendario / Importar)
+      downloadICS();
+      return;
+    }
+
+    // Desktop: abre Google Calendar (más rápido que descargar)
+    openUrl(buildGoogleUrl());
+
+    // Si algún día prefieres Outlook en desktop, cambia a:
+    // openUrl(buildOutlookUrl());
   });
 })();
 
