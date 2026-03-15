@@ -353,6 +353,56 @@ function pad2(n) {
   const endpoint = form.getAttribute("data-endpoint") || "";
   let personCount = 0;
 
+  const FORM_LOCK_KEY = "rsvpAlreadySubmitted_v1";
+
+  function getAllInteractiveFields() {
+    return Array.from(form.querySelectorAll("input, textarea, select, button"));
+  }
+
+  function lockFormUI() {
+    form.classList.remove("is-submitting");
+    form.classList.add("is-locked");
+
+    getAllInteractiveFields().forEach((el) => {
+      el.disabled = true;
+    });
+  }
+
+  function unlockFormUI() {
+    form.classList.remove("is-submitting");
+    form.classList.remove("is-locked");
+
+    getAllInteractiveFields().forEach((el) => {
+      el.disabled = false;
+    });
+  }
+
+  function persistLock(payload) {
+    try {
+      localStorage.setItem(
+        FORM_LOCK_KEY,
+        JSON.stringify({
+          locked: true,
+          submittedAt: new Date().toISOString(),
+          peopleCount: payload.people.length,
+        })
+      );
+    } catch (_) { }
+  }
+
+  function restoreLockIfNeeded() {
+    try {
+      const raw = localStorage.getItem(FORM_LOCK_KEY);
+      if (!raw) return;
+
+      const data = JSON.parse(raw);
+      if (!data || !data.locked) return;
+
+      setStatus("Ya hemos recibido esta confirmación en este dispositivo. Si necesitáis cambiar algo, escribidnos directamente 🤍", "ok");
+      lockFormUI();
+    } catch (_) { }
+  }
+
   function setStatus(msg, tone) {
     if (!statusEl) return;
     statusEl.textContent = msg || "";
@@ -529,6 +579,7 @@ function pad2(n) {
 
   // Init with one person
   addPerson();
+  restoreLockIfNeeded();
 
   addBtn.addEventListener("click", () => {
     addPerson();
@@ -577,9 +628,10 @@ function pad2(n) {
       return;
     }
 
+    form.classList.add("is-submitting");
     submitBtn && (submitBtn.disabled = true);
     addBtn.disabled = true;
-    setStatus("Enviando…", "info");
+    setStatus("Enviando tu confirmación…", "info");
 
     try {
       const result = await submit(payload);
@@ -588,16 +640,18 @@ function pad2(n) {
         return;
       }
 
-      setStatus("¡Listo! Hemos recibido tu confirmación. Gracias 🤍", "ok");
-      form.reset();
-      wrap.innerHTML = "";
-      personCount = 0;
-      addPerson();
+      setStatus("¡Confirmación enviada! Hemos recibido tus datos correctamente. Si necesitáis hacer algún cambio más adelante, escribidnos directamente 🤍", "ok");
+      persistLock(payload);
+      lockFormUI();
     } catch (err) {
       setStatus("Error de conexión. Revisa tu internet e inténtalo de nuevo.", "error");
     } finally {
-      submitBtn && (submitBtn.disabled = false);
-      addBtn.disabled = false;
+      form.classList.remove("is-submitting");
+
+      if (!form.classList.contains("is-locked")) {
+        submitBtn && (submitBtn.disabled = false);
+        addBtn.disabled = false;
+      }
     }
   });
 })();
@@ -841,7 +895,7 @@ function pad2(n) {
         });
       }
       if (img.decode) await img.decode();
-    } catch (_) {}
+    } catch (_) { }
   };
 
   Promise.all([...imgs].map(warmup));

@@ -308,8 +308,10 @@
               <button type="submit" class="btn btn--primary" id="submitRsvpBtn">Guardar y enviar</button>
             </div>
 
-            <p class="small muted" id="rsvpStatus" aria-live="polite"></p>
-            <p class="small muted">La información que compartas se usará solo para la organización de la boda.</p>
+            <div class="rsvpFeedback">
+              <div class="rsvpStatus" id="rsvpStatus" aria-live="polite"></div>
+              <p class="rsvpPrivacy">La información que compartas se usará solo para la organización de la boda.</p>
+            </div>
 
             <template id="personTpl">
               <section class="rsvpPerson" data-person>

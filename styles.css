@@ -653,44 +653,43 @@ strong {
     transform: translateY(0) scale(1);
   }
 
-
-  /* Reveal (stagger) */
-  .timelineItem {
-    --stagger: 0ms;
-  }
-
-  .timelineItem__card {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 520ms ease, transform 520ms ease, box-shadow 180ms ease, border-color 180ms ease;
-    transition-delay: var(--stagger);
-    will-change: transform, opacity;
-  }
-
-  .timelineItem.is-revealed .timelineItem__card {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .timeline__progress {
-      transition: none;
-    }
-
-    .timelineItem__card {
-      transition: none;
-      transform: none;
-      opacity: 1;
-    }
-  }
-
   55% {
     transform: translateY(-3px) scale(1.08);
   }
 
   100% {
     transform: translateY(-1px) scale(1.06);
+  }
+}
+
+/* Reveal (stagger) */
+.timelineItem {
+  --stagger: 0ms;
+}
+
+.timelineItem__card {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 520ms ease, transform 520ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  transition-delay: var(--stagger);
+  will-change: transform, opacity;
+}
+
+.timelineItem.is-revealed .timelineItem__card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .timeline__progress {
+    transition: none;
+  }
+
+  .timelineItem__card {
+    transition: none;
+    transform: none;
+    opacity: 1;
   }
 }
 
@@ -997,12 +996,82 @@ strong {
   flex-wrap: wrap;
 }
 
-#rsvpStatus[data-tone="ok"] {
+.rsvpFeedback {
+  display: grid;
+  gap: 12px;
+}
+
+.rsvpStatus {
+  display: none;
+  border-radius: 18px;
+  padding: 16px 18px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  border: 1px solid transparent;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.05);
+}
+
+.rsvpStatus:not(:empty) {
+  display: block;
+}
+
+.rsvpStatus[data-tone="info"] {
+  background: rgba(107, 122, 87, 0.10);
+  border-color: rgba(107, 122, 87, 0.20);
   color: rgba(27, 27, 27, 0.88);
 }
 
-#rsvpStatus[data-tone="error"] {
-  color: rgba(180, 40, 40, 0.92);
+.rsvpStatus[data-tone="ok"] {
+  background: rgba(107, 122, 87, 0.14);
+  border-color: rgba(107, 122, 87, 0.28);
+  color: rgba(27, 27, 27, 0.92);
+}
+
+.rsvpStatus[data-tone="error"] {
+  background: rgba(180, 40, 40, 0.08);
+  border-color: rgba(180, 40, 40, 0.20);
+  color: rgba(140, 20, 20, 0.96);
+}
+
+.rsvpPrivacy {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.rsvpForm.is-submitting {
+  opacity: 0.88;
+}
+
+.rsvpForm.is-locked .rsvpPeople,
+.rsvpForm.is-locked .rsvpActions {
+  opacity: 0.55;
+}
+
+.rsvpForm.is-locked .rsvpInput,
+.rsvpForm.is-locked .rsvpTextarea,
+.rsvpForm.is-locked .rsvpChoice,
+.rsvpForm.is-locked button {
+  pointer-events: none;
+}
+
+.rsvpForm.is-locked .rsvpInput,
+.rsvpForm.is-locked .rsvpTextarea {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.rsvpForm.is-locked #submitRsvpBtn,
+.rsvpForm.is-locked #addPersonBtn,
+.rsvpForm.is-locked .rsvpRemove {
+  opacity: 0.6;
+}
+
+@media (max-width: 720px) {
+  .rsvpStatus {
+    font-size: 15px;
+    padding: 14px 16px;
+  }
 }
 
 /* ==========================================================================
